@@ -6,7 +6,7 @@ import Text from './Text';
 
 const styles = StyleSheet.create({
   container: {
-    color: theme.colors.textSecondary,
+    color: theme.colors.textContrast,
     fontSize: theme.fontSizes.subheading,
     fontWeight: theme.fontWeights.bold,
     paddingVertical: 25,
