@@ -1,13 +1,21 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Link } from 'react-router-native';
 
 import Header from './Header';
 
-const AppBarTab = () => {
+const classes = StyleSheet.create({
+  container: {
+    paddingVertical: 25,
+    paddingHorizontal: 16,
+  }
+});
+
+const AppBarTab = ({ header, path }) => {
   return (
-    <Pressable>
-      <Header>Repositories</Header>
-    </Pressable>
+    <Link style={classes.container} to={path}>
+      <Header>{header}</Header>
+    </Link>
   );
 };
 
