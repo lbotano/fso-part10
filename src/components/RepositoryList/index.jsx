@@ -20,7 +20,6 @@ const RepositoryList = () => {
     return <Text>Error: {error.message}</Text>;
   }
   if (loading) {
-    console.log(loading);
     return <Text>Loading...</Text>;
   }
 
