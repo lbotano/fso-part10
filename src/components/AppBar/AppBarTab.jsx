@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
 
-import Header from './Header';
+import Header from '../Header';
 
 const classes = StyleSheet.create({
   container: {
