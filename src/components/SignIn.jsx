@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import theme from '../theme';
 import Text from './Text';
 import FormikTextInput from './FormikTextInput';
+import useSignIn from '../hooks/useSignIn';
 
 const classes = StyleSheet.create({
   form: {
@@ -37,9 +38,26 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
-  const handleSubmit = (values) => {
-    console.log(values);
+  const [signIn, result] = useSignIn();
+  const handleSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  if (result.loading) {
+    return <Text>Loading...</Text>;
+  }
+  if (result.error) {
+    return <Text color="error" fontWeight="bold">Error: {result.error.message}</Text>;
+  }
+  if (result.user) {
+    return <Text>Logged in as {result.user.username}</Text>;
+  }
 
   return (
     <Formik
