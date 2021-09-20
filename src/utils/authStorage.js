@@ -5,8 +5,8 @@ class AuthStorage {
     this.namespace = namespace;
   }
 
-  getAccessToken() {
-    return AsyncStorage.getItem(this.namespace);
+  async getAccessToken() {
+    return await AsyncStorage.getItem(this.namespace);
   }
 
   setAccessToken(accessToken) {

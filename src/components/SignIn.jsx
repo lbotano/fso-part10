@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
+import { useHistory } from 'react-router-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -7,6 +8,7 @@ import theme from '../theme';
 import Text from './Text';
 import FormikTextInput from './FormikTextInput';
 import useSignIn from '../hooks/useSignIn';
+import useAuthStorage from '../hooks/useAuthStorage';
 
 const classes = StyleSheet.create({
   form: {
@@ -38,26 +40,28 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
-  const [signIn, result] = useSignIn();
+  const history = useHistory();
+  const authStorage = useAuthStorage();
+
+  const redirect = async () => {
+    if (await authStorage.getAccessToken()) {
+      history.push('/');
+    }
+  };
+
+  const [signIn] = useSignIn();
   const handleSubmit = async (values) => {
     const { username, password } = values;
     try {
       const { data } = await signIn({ username, password });
+      redirect();
       console.log(data);
     } catch (e) {
       console.error(e);
     }
   };
 
-  if (result.loading) {
-    return <Text>Loading...</Text>;
-  }
-  if (result.error) {
-    return <Text color="error" fontWeight="bold">Error: {result.error.message}</Text>;
-  }
-  if (result.user) {
-    return <Text>Logged in as {result.user.username}</Text>;
-  }
+  useEffect(() => { redirect(); }, []);
 
   return (
     <Formik
