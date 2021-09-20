@@ -46,9 +46,9 @@ const RepositoryItem = ({ item }) => {
           }} />
         </View>
         <View style={classes.info}>
-          <Text fontWeight="bold">{item.fullName}</Text>
-          <Text>{item.description}</Text>
-          <Tag>
+          <Text fontWeight="bold" testID="repo-name">{item.fullName}</Text>
+          <Text testID="repo-description">{item.description}</Text>
+          <Tag testID="repo-language">
             {item.language}
           </Tag>
         </View>
@@ -61,17 +61,6 @@ const RepositoryItem = ({ item }) => {
       </View>
     </View>
   );
-  /*return (
-    <View>
-      <Text>Full name: {item.fullName}</Text>
-      <Text>Description: {item.description}</Text>
-      <Text>Language: {item.language}</Text>
-      <Text>Stars: {item.stargazersCount}</Text>
-      <Text>Fork: {item.forksCount}</Text>
-      <Text>Reviews: {item.reviewCount}</Text>
-      <Text>Rating: {item.ratingAverage}</Text>
-    </View>
-  );*/
 };
 
 export default RepositoryItem;

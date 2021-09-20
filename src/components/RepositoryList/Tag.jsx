@@ -13,10 +13,10 @@ const classes = StyleSheet.create({
   },
 });
 
-const Tag = ({ children }) => {
+const Tag = ({ children, ...props }) => {
   return (
     <View style={classes.container}>
-      <Text color="white">
+      <Text color="white" {...props}>
         {children}
       </Text>
     </View>
