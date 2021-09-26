@@ -11,7 +11,6 @@ import { AUTHORIZED_USER } from '../../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.contrast,
   },
 });

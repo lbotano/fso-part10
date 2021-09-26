@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { Route, Switch, Redirect, useHistory } from 'react-router-native';
 
 import theme from '../theme';
 import AppBar from './AppBar';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
+import Repository from './Repository';
 import useAuthStorage from '../hooks/useAuthStorage';
 import useSignIn from '../hooks/useSignIn';
 
@@ -40,8 +41,12 @@ const Main = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={theme.colors.contrast} />
       <AppBar />
       <Switch>
+        <Route path="/repository/:id">
+          <Repository />
+        </Route>
         <Route path="/sign-in" exact>
           <SignIn handleSubmit={login} />
         </Route>
