@@ -32,7 +32,21 @@ export const GET_REPOSITORY = gql`
       ratingAverage,
       reviewCount,
       ownerAvatarUrl,
-      url
+      url,
+      reviews {
+        edges {
+          node {
+            id,
+            text,
+            rating,
+            createdAt,
+            user {
+              id,
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -40,8 +54,17 @@ export const GET_REPOSITORY = gql`
 export const AUTHORIZED_USER = gql`
   query {
     authorizedUser {
-      id
+      id,
       username
     }
   }
+`;
+
+export const GET_REVIEWS = gql`
+query($id: ID!) {
+  repository(id: $id) {
+    id
+    fullName
+  }
+}
 `;

@@ -10,7 +10,16 @@ const useRepository = (id) => {
     },
   });
 
-  return { repo: data && data.repository, error, loading };
+  return {
+    repo: data && {
+      ...data.repository,
+      reviews: data.repository.reviews.edges.map((edge) => (
+        edge.node
+      )),
+    },
+    error,
+    loading
+  };
 };
 
 export default useRepository;

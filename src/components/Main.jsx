@@ -6,7 +6,7 @@ import theme from '../theme';
 import AppBar from './AppBar';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
-import Repository from './Repository';
+import SingleRepository from './RepositoryList/SingleRepository';
 import useAuthStorage from '../hooks/useAuthStorage';
 import useSignIn from '../hooks/useSignIn';
 
@@ -45,7 +45,7 @@ const Main = () => {
       <AppBar />
       <Switch>
         <Route path="/repository/:id">
-          <Repository />
+          <SingleRepository />
         </Route>
         <Route path="/sign-in" exact>
           <SignIn handleSubmit={login} />
