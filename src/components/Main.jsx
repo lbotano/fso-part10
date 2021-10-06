@@ -7,6 +7,7 @@ import AppBar from './AppBar';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
 import SingleRepository from './RepositoryList/SingleRepository';
+import CreateReview from './CreateReview';
 import useAuthStorage from '../hooks/useAuthStorage';
 import useSignIn from '../hooks/useSignIn';
 
@@ -33,7 +34,6 @@ const Main = () => {
     try {
       const { data } = await signIn({ username, password });
       redirect();
-      console.log(data);
     } catch (e) {
       console.error(e);
     }
@@ -49,6 +49,9 @@ const Main = () => {
         </Route>
         <Route path="/sign-in" exact>
           <SignIn handleSubmit={login} />
+        </Route>
+        <Route path="/create-review" exact>
+          <CreateReview />
         </Route>
         <Route path="/" exact>
           <RepositoryList />

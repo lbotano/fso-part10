@@ -35,7 +35,12 @@ const AppBar = () => {
         <AppBarTab header="Repositories" path="/" />
         {
           data.authorizedUser
-            ? <SignOutTab />
+            ? (
+              <>
+                <AppBarTab header="Review form" path="/create-review" />
+                <SignOutTab />
+              </>
+            )
             : <AppBarTab header="Sign in" path="/sign-in" />
         }
       </ScrollView>
