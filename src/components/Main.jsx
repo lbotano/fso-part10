@@ -5,6 +5,7 @@ import { Route, Switch, Redirect, useHistory } from 'react-router-native';
 import theme from '../theme';
 import AppBar from './AppBar';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import RepositoryList from './RepositoryList';
 import SingleRepository from './RepositoryList/SingleRepository';
 import CreateReview from './CreateReview';
@@ -32,7 +33,7 @@ const Main = () => {
   const [signIn] = useSignIn();
   const login = async ({ username, password }) => {
     try {
-      const { data } = await signIn({ username, password });
+      await signIn({ username, password });
       redirect();
     } catch (e) {
       console.error(e);
@@ -49,6 +50,9 @@ const Main = () => {
         </Route>
         <Route path="/sign-in" exact>
           <SignIn handleSubmit={login} />
+        </Route>
+        <Route path="/sign-up" exact>
+          <SignUp onSubmit={login} />
         </Route>
         <Route path="/create-review" exact>
           <CreateReview />

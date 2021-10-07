@@ -18,7 +18,7 @@ const useReview = () => {
         ownerName,
         rating: Number(rating),
         text,
-      }
+      },
     });
     apolloClient.resetStore();
 
