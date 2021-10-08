@@ -24,7 +24,7 @@ const FormikTextInput = ({ name, ...props }) => {
       <TextInput
         onChangeText={value => helpers.setValue(value)}
         onBlur={() => helpers.setTouched(true)}
-        value={field.value}
+        value={String(field.value)}
         error={showError}
         style={showError && styles.inputError}
         {...props}

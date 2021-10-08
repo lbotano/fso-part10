@@ -56,7 +56,7 @@ const ReviewForm = ({ onSubmit }) => {
       <FormikTextInput name="ownerName" placeholder="Repository owner name" />
       <FormikTextInput name="repositoryName" placeholder="Repository name" />
       <FormikTextInput
-        name={{name: "rating", type: 'number', }}
+        name="rating"
         placeholder="Rating between 0 and 100"
         keyboardType="numeric"
         maxLength={3}
