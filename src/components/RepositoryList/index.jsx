@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
+import RepositoryListHeader from './RepositoryListHeader';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../../hooks/useRepositories';
 
@@ -13,52 +13,55 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const OrderPicker = (props) => (
-  <Picker {...props}>
-    <Picker.Item value="latest" label="Latest respositories" />
-    <Picker.Item value="highest" label="Highest rated respositories"/>
-    <Picker.Item value="lowest" label="Lowest rated respositories" />
-  </Picker>
-);
+export class RepositoryListContainer extends React.Component {
+  renderHeader = () => {
+    const props = this.props;
 
-export const RepositoryListContainer = ({
-  repositories,
-  setChosenSort,
-  chosenSort
-}) => {
-  return (
-    <FlatList
-      data={repositories}
-      ListHeaderComponent={
-        <OrderPicker selectedValue={chosenSort} onValueChange={setChosenSort} />
-      }
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => (
-        <RepositoryItem item={item} />
-      )}
-      keyExtractor={item => item.id}
-      testID="repository-list"
-    />
-  );
-};
+    return (
+      <RepositoryListHeader
+        searchProps={{
+          value: props.filter,
+          onChangeText: props.setFilter,
+        }}
+        orderProps={{
+          selectedValue: props.chosenSort,
+          onValueChange: props.setChosenSort,
+        }}
+      />
+    );
+  };
+
+  render() {
+    return (
+      <FlatList
+        data={this.props.repositories}
+        ListHeaderComponent={this.renderHeader}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({ item }) => (
+          <RepositoryItem item={item} />
+        )}
+        keyExtractor={item => item.id}
+        testID="repository-list"
+      />
+    );
+  }
+}
 
 const RepositoryList = () => {
+  const [filter, setFilter] = useState('');
   const [chosenSort, setChosenSort] = useState('latest');
-  const { repositories, error, loading } = useRepositories(chosenSort);
-
+  const { repositories, error } = useRepositories(filter, chosenSort);
 
   if (error) {
     console.error(error);
     return <Text>Error: {error.message}</Text>;
   }
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
-
   return (
     <RepositoryListContainer
       repositories={repositories}
+      filter={filter}
+      setFilter={setFilter}
       chosenSort={chosenSort}
       setChosenSort={setChosenSort}
     />
