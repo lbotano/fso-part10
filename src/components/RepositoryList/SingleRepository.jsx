@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Pressable, StyleSheet, Linking, FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 import { format } from 'date-fns';
@@ -134,9 +134,32 @@ const ReviewItem = ({ review }) => (
   </View>
 );
 
+const SingleRepositoryContainer = (props) => {
+  return (
+    <FlatList
+      data={ props.repo.reviews }
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      keyExtractor={({ id }) => id}
+      ListHeaderComponent={() => <RepositoryInfo repository={props.repo} />}
+      onEndReached={props.fetchMore}
+      onEndReachedThreshold={0.5}
+    />
+  );
+};
+
 const SingleRepository = () => {
   const { id } = useParams();
-  const { repo, error, loading } = useRepository(id);
+  const { repo, error, loading, fetchMore } = useRepository(id);
+
+  const [everLoaded, setEverLoaded] = useState(false);
+
+  if (!loading && !everLoaded) {
+    setEverLoaded(true);
+  }
+
+  if (!everLoaded) {
+    return <Text>Loading...</Text>;
+  }
 
   if (error) {
     console.error(error);
@@ -145,20 +168,10 @@ const SingleRepository = () => {
     );
   }
 
-  if (loading) {
-    return (
-      <Text>Loading...</Text>
-    );
-  }
-
   return (
-    <FlatList
-      data={ repo.reviews }
-      renderItem={({ item }) => <ReviewItem review={item} />}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <RepositoryInfo repository={repo} />}
-    />
+    <SingleRepositoryContainer repo={repo} fetchMore={fetchMore} />
   );
+
 };
 
 export default SingleRepository;

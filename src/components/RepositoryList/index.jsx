@@ -33,6 +33,7 @@ export class RepositoryListContainer extends React.Component {
 
   render() {
     const props = this.props;
+    //console.log('guddata', props.repositories);
 
     return (
       <FlatList
@@ -54,17 +55,25 @@ export class RepositoryListContainer extends React.Component {
 const RepositoryList = () => {
   const [filter, setFilter] = useState('');
   const [chosenSort, setChosenSort] = useState('latest');
-  const { repositories, error, fetchMore } = useRepositories(filter, chosenSort);
+  const { repositories, error, loading, fetchMore } = useRepositories(filter, chosenSort);
+
+  const [everLoaded, setEverLoaded] = useState(false);
 
   if (error) {
     console.error(error);
     return <Text>Error: {error.message}</Text>;
   }
 
+  if (!loading && !everLoaded) {
+    setEverLoaded(true);
+  }
+
+  if (!everLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
   const onEndReach = () => {
-    console.log('end reached');
     fetchMore();
-    console.log(fetchMore);
   };
 
   return (
@@ -74,7 +83,7 @@ const RepositoryList = () => {
       setFilter={setFilter}
       chosenSort={chosenSort}
       setChosenSort={setChosenSort}
-      onEndReach={onEndReach}
+      onEndReach={() => {onEndReach();}}
     />
   );
 };

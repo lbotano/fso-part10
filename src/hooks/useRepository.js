@@ -3,12 +3,28 @@ import { useQuery } from '@apollo/client';
 import { GET_REPOSITORY } from '../graphql/queries';
 
 const useRepository = (id) => {
-  const { data, error, loading } = useQuery(GET_REPOSITORY, {
+  const { data, error, loading, fetchMore, ...result } = useQuery(GET_REPOSITORY, {
     fetchPolicy: 'cache-and-network',
     variables: {
       id,
     },
   });
+
+  const handleFetchMore = (variables) => {
+    console.log('end reached');
+    const cantFetchMore = loading || !data?.repository.reviews.pageInfo.hasNextPage;
+
+    if (cantFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      }
+    });
+  };
 
   return {
     repo: data && {
@@ -18,7 +34,9 @@ const useRepository = (id) => {
       )),
     },
     error,
-    loading
+    loading,
+    fetchMore: handleFetchMore,
+    ...result,
   };
 };
 
