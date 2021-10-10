@@ -2,6 +2,7 @@ import React from 'react';
 import { NativeRouter } from 'react-router-native';
 import { ApolloProvider } from '@apollo/client';
 import Constants from 'expo-constants';
+import { relayStylePagination } from '@apollo/client/utilities';
 
 import createApolloClient from './src/utils/apolloClient';
 import AuthStorage from './src/utils/authStorage';

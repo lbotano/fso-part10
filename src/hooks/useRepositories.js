@@ -21,7 +21,7 @@ const useRepositories = (filter, chosenSort) => {
       orderDirection = 'DESC';
   }
 
-  const { data, error, loading } = useQuery(GET_REPOSITORIES, {
+  const { data, error, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
     variables: {
       filter,
@@ -29,6 +29,21 @@ const useRepositories = (filter, chosenSort) => {
       orderDirection,
     },
   });
+
+  const handleFetchMore = (variables) => {
+    const cantFetchMore = loading || !data?.repositories.pageInfo.hasNextPage;
+
+    if (cantFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      }
+    });
+  };
 
   const repositories = data
     ? data.repositories.edges.map(edge => edge.node)
@@ -38,6 +53,8 @@ const useRepositories = (filter, chosenSort) => {
     repositories,
     error,
     loading,
+    fetchMore: handleFetchMore,
+    ...result,
   };
 };
 

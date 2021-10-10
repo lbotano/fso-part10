@@ -4,12 +4,16 @@ export const GET_REPOSITORIES = gql`
   query (
     $orderBy: AllRepositoriesOrderBy,
     $orderDirection: OrderDirection,
-    $filter: String
+    $filter: String,
+    $first: Int = 8,
+    $after: String
   ) {
     repositories (
       searchKeyword: $filter,
       orderBy: $orderBy,
-      orderDirection: $orderDirection
+      orderDirection: $orderDirection,
+      first: $first,
+      after: $after
     ) {
       edges {
         node {
@@ -22,7 +26,13 @@ export const GET_REPOSITORIES = gql`
           ratingAverage,
           reviewCount,
           ownerAvatarUrl
-        }
+        },
+        cursor
+      }
+      pageInfo {
+        startCursor,
+        endCursor,
+        hasNextPage
       }
     }
   }

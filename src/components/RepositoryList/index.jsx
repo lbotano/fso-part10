@@ -32,6 +32,8 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
+    const props = this.props;
+
     return (
       <FlatList
         data={this.props.repositories}
@@ -41,6 +43,8 @@ export class RepositoryListContainer extends React.Component {
           <RepositoryItem item={item} />
         )}
         keyExtractor={item => item.id}
+        onEndReached={props.onEndReach}
+        onEndReachedThreshold={0.5}
         testID="repository-list"
       />
     );
@@ -50,12 +54,18 @@ export class RepositoryListContainer extends React.Component {
 const RepositoryList = () => {
   const [filter, setFilter] = useState('');
   const [chosenSort, setChosenSort] = useState('latest');
-  const { repositories, error } = useRepositories(filter, chosenSort);
+  const { repositories, error, fetchMore } = useRepositories(filter, chosenSort);
 
   if (error) {
     console.error(error);
     return <Text>Error: {error.message}</Text>;
   }
+
+  const onEndReach = () => {
+    console.log('end reached');
+    fetchMore();
+    console.log(fetchMore);
+  };
 
   return (
     <RepositoryListContainer
@@ -64,6 +74,7 @@ const RepositoryList = () => {
       setFilter={setFilter}
       chosenSort={chosenSort}
       setChosenSort={setChosenSort}
+      onEndReach={onEndReach}
     />
   );
 };
