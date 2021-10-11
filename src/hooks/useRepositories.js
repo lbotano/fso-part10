@@ -41,7 +41,7 @@ const useRepositories = (filter, chosenSort) => {
       variables: {
         after: data.repositories.pageInfo.endCursor,
         ...variables,
-      }
+      },
     });
   };
 

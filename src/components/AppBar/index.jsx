@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import { useQuery } from '@apollo/client';
 
 import theme from '../../theme';
 import AppBarTab from './AppBarTab';
 import SignOutTab from './SignOutTab';
 import Text from '../Text';
-import { AUTHORIZED_USER } from '../../graphql/queries';
+import useUser from '../../hooks/useUser';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,9 +15,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data, loading, error } = useQuery(AUTHORIZED_USER, {
-    fetchPolicy: 'cache-and-network',
-  });
+  const { data, loading, error } = useUser();
 
   if (error) {
     console.error(error);
@@ -38,6 +35,7 @@ const AppBar = () => {
             ? (
               <>
                 <AppBarTab header="Review form" path="/create-review" />
+                <AppBarTab header="My reviews" path="/my-reviews" />
                 <SignOutTab />
               </>
             )

@@ -9,6 +9,7 @@ import SignUp from './SignUp';
 import RepositoryList from './RepositoryList';
 import SingleRepository from './RepositoryList/SingleRepository';
 import CreateReview from './CreateReview';
+import MyReviews from './MyReviews';
 import useAuthStorage from '../hooks/useAuthStorage';
 import useSignIn from '../hooks/useSignIn';
 
@@ -56,6 +57,9 @@ const Main = () => {
         </Route>
         <Route path="/create-review" exact>
           <CreateReview />
+        </Route>
+        <Route path="/my-reviews" exact>
+          <MyReviews />
         </Route>
         <Route path="/" exact>
           <RepositoryList />

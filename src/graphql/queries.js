@@ -90,3 +90,35 @@ export const AUTHORIZED_USER = gql`
   }
 `;
 
+export const GET_USER_REVIEWS = gql`
+  query (
+    $first: Int = 4,
+    $after: String
+  ) {
+    authorizedUser {
+      id,
+      reviews (
+        first: $first,
+        after: $after
+      ) {
+        edges {
+          node {
+            id,
+            text,
+            rating,
+            createdAt,
+            user {
+              id,
+              username
+            }
+          }
+        },
+        pageInfo {
+          startCursor,
+          endCursor,
+          hasNextPage
+        }
+      }
+    }
+  }
+`;

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, Image, Pressable, StyleSheet, Linking, FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
-import { format } from 'date-fns';
 
 import theme from '../../theme';
 import Text from '../Text';
 import Tag from '../RepositoryList/Tag';
 import RepositoryItemStat from '../RepositoryList/RepositoryItemStat';
 import Header from '../Header';
+import ReviewsContainer from '../ReviewsContainer';
 import useRepository from '../../hooks/useRepository';
 
 const classes = StyleSheet.create({
@@ -43,36 +43,6 @@ const classes = StyleSheet.create({
     padding: 15,
     marginTop: 10,
     backgroundColor: theme.colors.primary,
-  },
-  reviewItem: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: theme.colors.white,
-    marginTop: 10,
-    padding: 10
-  },
-  reviewRating: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50,
-    height: 50,
-    borderColor: theme.colors.primary,
-    borderWidth: 2,
-    borderRadius: 25,
-  },
-  reviewInfo: {
-    paddingLeft: 10,
-    flexGrow: 1,
-  },
-  reviewTextContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  reviewText: {
-    flex: 1,
-    flexWrap: 'wrap',
   },
 });
 
@@ -113,40 +83,6 @@ const RepositoryInfo = ({ repository }) => {
   );
 };
 
-const ReviewItem = ({ review }) => (
-  <View style={classes.reviewItem}>
-    <View style={classes.reviewRating}>
-      <Text
-        color="primary"
-        fontWeight="bold"
-        fontSize="subheading"
-      >
-        {review.rating}
-      </Text>
-    </View>
-    <View style={classes.reviewInfo}>
-      <Text fontWeight="bold">{review.user.username}</Text>
-      <Text color="textSecondary">{format(new Date(review.createdAt), 'dd.MM.yyyy')}</Text>
-      <View style={classes.reviewTextContainer}>
-        <Text style={classes.reviewText}>{review.text}</Text>
-      </View>
-    </View>
-  </View>
-);
-
-const SingleRepositoryContainer = (props) => {
-  return (
-    <FlatList
-      data={ props.repo.reviews }
-      renderItem={({ item }) => <ReviewItem review={item} />}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <RepositoryInfo repository={props.repo} />}
-      onEndReached={props.fetchMore}
-      onEndReachedThreshold={0.5}
-    />
-  );
-};
-
 const SingleRepository = () => {
   const { id } = useParams();
   const { repo, error, loading, fetchMore } = useRepository(id);
@@ -169,7 +105,11 @@ const SingleRepository = () => {
   }
 
   return (
-    <SingleRepositoryContainer repo={repo} fetchMore={fetchMore} />
+    <ReviewsContainer
+      reviews={repo.reviews}
+      fetchMore={fetchMore}
+      header={() => <RepositoryInfo repository={repo} />}
+    />
   );
 
 };
