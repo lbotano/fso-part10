@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import { GET_USER_REVIEWS } from '../graphql/queries';
 
 const useUserReviews = () => {
-  const { data, loading, error, fetchMore, ...result } = useQuery(GET_USER_REVIEWS, {
+  const { data, loading, error, refetch, fetchMore, ...result } = useQuery(GET_USER_REVIEWS, {
     fetchPolicy: 'cache-and-network',
   });
 
@@ -30,6 +30,7 @@ const useUserReviews = () => {
     data: reviews,
     loading,
     error,
+    refetch,
     fetchMore: handleFetchMore,
     ...result
   };

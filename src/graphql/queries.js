@@ -92,7 +92,7 @@ export const AUTHORIZED_USER = gql`
 
 export const GET_USER_REVIEWS = gql`
   query (
-    $first: Int = 4,
+    $first: Int = 8,
     $after: String
   ) {
     authorizedUser {
@@ -110,7 +110,8 @@ export const GET_USER_REVIEWS = gql`
             user {
               id,
               username
-            }
+            },
+            repositoryId
           }
         },
         pageInfo {

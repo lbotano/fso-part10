@@ -5,7 +5,7 @@ import ReviewsContainer from './ReviewsContainer';
 import useUserReviews from '../hooks/useUserReviews';
 
 const MyReviews = () => {
-  const { data, loading, error, fetchMore } = useUserReviews();
+  const { data, loading, error, refetch, fetchMore } = useUserReviews();
 
   const [everLoaded, setEverLoaded] = useState(false);
 
@@ -25,6 +25,8 @@ const MyReviews = () => {
     <ReviewsContainer 
       reviews={data}
       fetchMore={fetchMore}
+      refetch={refetch}
+      showOptions
     />
   );
 };
